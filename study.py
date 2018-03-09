@@ -197,3 +197,52 @@ iris.loc[0:5,['Sepal.Length','Sepal.Width']]
 iris_na=iris.replace(1,np.nan).loc[20:25,:] #replace函数是替换，就是把1替换成nan：
 iris_na.dropna(0)    #去除这一行 0 默认 可以不写0
 iris_na.dropna(1)    #去除这一列 1
+
+
+
+################################   example 2
+import os
+import pandas as pd
+import numpy as np
+os.getcwd() 
+mydata = pd.read_csv("cars.csv",sep = ",",encoding = "utf-8")
+mydata.head()
+mydata.describe()
+
+mydata["wt"]
+mydata.wt
+mydata[["wt","mpg"]]
+
+mydata[1:10]  #默认情况下序列范围是针对行切片（字符串默认则是针对列索引）
+mydata[20:]  #切出201个之后的所有记录（Python的数据类型默认从0开始编号）
+mydata[:10]  #切出前一百个的所有记录（默认从0开始，不包含尾部）
+mydata[:]     #默认提取所有的数据记录
+mydata[::2]   #默认隔几个单位取一次值
+
+#数据框可以同时叠加行列索引与切片：[[]]表示列  [] 表示行
+mydata[1:10][["wt","mpg"]]
+mydata[["wt","mpg"]][1:10]
+
+
+mydata.loc[3]        #按索引提取单行的数值
+mydata.loc[0:5]      #按索引提取区域行数值
+mydata.loc[1:10,["mt","mpg"]] #行列同时索引
+
+#位置索引：（只针对行列位置对应的序号）
+
+mydata.iloc[[0,2]]  #等价于mydata.iloc[[0,2],:]
+mydata.iloc[1:]     #等价于mydata.iloc[1:,:]
+mydata.iloc[1,[0,1]]
+mydata.iloc[:3,:2]          
+mydata.iloc[[0,2,5],[4,5]] 
+
+
+#使用ix按索引标签和位置混合提取数据
+df_inner.ix[:,:]
+
+# 条件索引：
+mydata[(mydata["model"]=="audi") | (mydata["manufacturer"]=="mercury")][["model","manufacturer","year","class"]]
+mydata[(mydata["model"]=="a4") & (mydata["manufacturer"]=="audi")][["model","manufacturer","year","class"]]
+
+mydata.query(' cyl==8 | vs==0')
+mydata.query(' mpg==21 & am==1 ')

@@ -357,3 +357,5 @@ iris_na.dropna(0)    #去除这一行 0 默认 可以不写0
 iris_na.dropna(1)    #去除这一列 1
 ```
 pandas的iloc和loc以及**icol**使用（列切片及行切片）
+
+http://www.runoob.com/python3/python3-data-type.html
