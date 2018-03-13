@@ -359,3 +359,151 @@ iris_na.dropna(1)    #去除这一列 1
 pandas的iloc和loc以及**icol**使用（列切片及行切片）
 
 http://www.runoob.com/python3/python3-data-type.html
+### Python里的OS模块常用函数说明：
+- os.getcwd()函数得到当前工作目录，即当前python脚本工作的目录路径。
+- os.getenv()获取一个环境变量，如果没有返回none
+- os.putenv(key, value)设置一个环境变量值
+- os.listdir(path)返回指定目录下的所有文件和目录名。
+- os.remove(path)函数用来删除一个文件。
+- os.system(command)函数用来运行shell命令。
+- os.linesep字符串给出当前平台使用的行终止符。例如，windows使用'\r\n'，linux使用'\n'而mac使用'\r'。
+- os.path.split(p)函数返回一个路径的目录名和文件名。
+- os.path.isfile()和os.path.isdir()函数分别检验给出的路径是一个文件还是目录。
+- os.path.existe()函数用来检验给出的路径是否真地存在
+- os.curdir:返回当前目录（'.')
+- os.chdir(dirname):改变工作目录到dirname
+- os.path.getsize(name):获得文件大小，如果name是目录返回0l
+- os.path.abspath(name):获得绝对路径
+- os.path.normpath(path):规范path字符串形式
+- os.path.splitext():分离文件名与扩展名
+- os.path.join(path,name):连接目录与文件名或目录
+- os.path.basename(path):返回文件名
+- os.path.dirname(path):返回文件路径
+
+#### Pandas 提供了一些选择的方法，这些选择的方法可以把数据切片，也可以把数据切块。下面我们简单介绍一下：
+
+- 查看一列的一些基本统计信息：`data.columnname.describe()`
+- 选择一列：`data['columnname']`
+- 选择一列的前几行数据：`data['columnsname'][:n]`
+- 选择多列：`data[['column1','column2']]`
+- Where 条件过滤：`data[data['columnname'] > condition]`
+
+data.country= data.country.fillna('')    #将NA替换成空
+data.duration = data.duration.fillna(data.duration.mean())     #将NA替换成均值
+
+删除任何包含 NA 值的行是很容的： 	data.dropna()
+删除一整行的值都为 NA：         	data.dropna(how='all')
+行数据中至少要有 5 个非空值		data.drop(thresh=5)
+删除列名    						data.dropna(subset=['title_year'])    如果是多个列，可以使用列名的 list 作为参数。
+默认是axis=0 行 axis=1 列
+删除一正列为 NA 的列：data.drop(axis=1, how='all')
+删除任何包含空值的列：data.drop(axis=1. how='any')
+
+data = pd.read_csv('../data/moive_metadata.csv', dtype={'duration': int})  指定列的数据类型 duration为int
+data = pd.read_csv('./data/moive_metadata.csv', dtype={'title_year':str})	指定列的数据类型 title_year为str
+data['movie_title'].str.upper()     改为大写	
+data['movie_title'].str.strip()		去掉空格
+
+#### 数据合并
+Pandas： append()		#行合并	 R  dplyr::bind_cols()  cbind
+```
+result = df1.append(df2);print(result)
+result = result.append(df3);print(result)
+```
+Pandas： cancat()		#列合并	 R 	dplyr::bind_rows()	rbind
+` result = pd.concat([df1, df2, df3]);print(result)`
+Pandas： merge			#联合 R merge
+
+
+#### 提取单列的两种等价方式：
+```
+iris.shape    # R  dim()
+df.dtypes		# R  class() typeof()
+
+
+
+mydata.model   #在R语言中应该写mydata$model
+mydata["model"]  #在R语言中应该写mydata[,"model"]或者mydata["model"]
+
+mydata[["model","manufacturer"]]     #多列提取
+mydata[::2]   #默认隔几个单位取一次值
+iris[["Sepal.Length","Sepal.Width"]][1:10]
+
+mydata.loc[3]        #按索引提取单行的数值
+mydata.loc[0:5]      #按索引提取区域行数值
+mydata.loc[1:10,["model","manufacturer"]] #行列同时索引
+
+mydata.iloc[[0,2]]  等价于mydata.iloc[[0,2],:]
+mydata.iloc[1:]     等价于mydata.iloc[1:,:]
+mydata.iloc[1,[0,1]]
+mydata.iloc[:3,:2]          
+mydata.iloc[[0,2,5],[4,5]] 
+
+iris.ix[:10,:-2]       #python示意list形式传入,而R是vector传入
+iris.ix[:10,['Sepal.Length','Petal.Width']]
+iris.ix[:10,'Sepal.Length':'Species']
+iris.ix[:10,[0,-1]]
+
+dt.query('sl >5 & pw >2')  #在py中列名最好不要带. 这样的特殊字符，否则会报错，以下以索引的方式不会报错
+
+#where
+iris[(iris['Sepal.Length']>4.9) & (iris['Petal.Width'] < 2)] 		#同时满足
+iris[(iris['Sepal.Length']>4.9) | (iris['Petal.Width'] < 0.2)] 		#满足其一
+iris[(iris['Sepal.Length']>4.9) | (iris['Petal.Width'] < 0.2)][['Species']]   #满足其一，指定列
+
+
+
+```
+#### panda
+
+```
+############################   panda  example  ########################################
+from pandas import Series, DataFrame  
+import pandas as pd 
+arr=[1,2,3,4]
+
+series_1 = Series(arr)
+series_2=Series([1,2,3,4]) 
+series_3=Series([1,2,'3',4,'a'])
+
+series_4 =Series([1,2,3])
+series_4.index=['a','b','c'] #创建索引
+
+temp =Series([5])
+type(temp)
+series_4.append(temp)       #增    Series的add()方法是加法计算不是增加Series元素用的。
+series_4.add(temp)          #对应索引位置的相加
+series_4.drop('a')   # 删
+series_4['a']=4         #改
+series_4['a']       #查
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

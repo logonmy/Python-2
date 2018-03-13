@@ -246,3 +246,59 @@ mydata[(mydata["model"]=="a4") & (mydata["manufacturer"]=="audi")][["model","man
 
 mydata.query(' cyl==8 | vs==0')
 mydata.query(' mpg==21 & am==1 ')
+
+import os
+import pandas as pd
+import numpy as np
+os.getcwd() 
+train = pd.read_csv("train.csv",sep = ",",encoding = "utf-8")
+train.head()
+
+test = pd.read_csv("test.csv",sep = ",",encoding = "utf-8")
+test.head()
+
+df1 = pd.read_table("iris.csv", header=0, sep =',',index_col=0)  #0行做为表头，0列作为列名
+df2 = pd.read_table("iris.csv", header=0, sep =',')
+dt = df.rename(columns = {'Sepal.Width':'sw','Sepal.Length':'sl',
+                          'Petal.Length':'pl','Petal.Width':'pw','Species':'factor'})
+dt = dt.iloc[:,1:]
+dt.to_csv('dt.csv',encoding='utf-8')
+
+train.query(' Unnamed: 0 < 100 ')
+
+
+
+data=[[1,2,3],[4,5,6]]
+index=['a','b']#行号
+columns=['c','d','e']#列号
+df=pd.DataFrame(data,index=index,columns=columns)#生成一个数据框
+
+
+df.ix[:,0:2]
+
+df.ix[:,[0,2]]
+
+iris.query('Species == "setosa"')
+dt.query('sl >5 & pw >2')
+print(dt.query('sl  >5'))
+
+
+############################   panda
+from pandas import Series, DataFrame  
+import pandas as pd 
+arr=[1,2,3,4]
+
+series_1 = Series(arr)
+series_2=Series([1,2,3,4]) 
+series_3=Series([1,2,'3',4,'a'])
+
+series_4 =Series([1,2,3])
+series_4.index=['a','b','c'] #创建索引
+
+temp =Series([5])
+type(temp)
+series_4.append(temp)       #增    Series的add()方法是加法计算不是增加Series元素用的。
+series_4.add(temp)          #对应索引位置的相加
+series_4.drop('a')   # 删
+series_4['a']=4         #改
+series_4['a']       #查
